@@ -6,6 +6,7 @@ import com.springBoot.example.spring.boot.component.ComponentDependency;
 import com.springBoot.example.spring.boot.component.ComponentPalindromeImplement;
 import com.springBoot.example.spring.boot.entity.User;
 import com.springBoot.example.spring.boot.pojo.UserPojo;
+import com.springBoot.example.spring.boot.repository.UserRepository;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -26,15 +29,17 @@ public class Application implements CommandLineRunner {
       private ComponentPalindromeImplement componentPalindromeImplement;
       private MyBeanWithPropertiesImplement myBeanWithPropertiesImplement;
       private UserPojo userPojo;
+      private UserRepository userRepository;
 
       //@Autowired no necesario para versiones de spring recientes
-      public Application(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency, ComponentPalindromeImplement componentPalindromeImplement, UserPojo userPojo){
+      public Application(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency, ComponentPalindromeImplement componentPalindromeImplement, UserPojo userPojo, UserRepository userRepository){
          	this.componentDependency = componentDependency;
          	this.myBean = myBean;
          	this.myBeanWithDependency = myBeanWithDependency;
             this.componentPalindromeImplement = componentPalindromeImplement;
           //  this.myBeanWithPropertiesImplement = myBeanWithPropertiesImplement;
             this.userPojo = userPojo;
+            this.userRepository = userRepository;
 	  }
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -43,12 +48,13 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+          saveUsersIndatabase();
 	}
 	private void saveUsersIndatabase(){
       	 User user1 = new User("John", "john@domain.com", LocalDate.of(2021, 03, 20));
       	 User user2 = new User("federico", "federico@domain.com", LocalDate.of(2021, 02, 12));
-      	 List<User> list = Array.asList(user1, user2);
+		List<User> list = Arrays.asList(user1, user2);
+		list.stream().forEach(userRepository::save);
 	}
 
 	public void exampleCode(){
