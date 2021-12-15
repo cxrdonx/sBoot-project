@@ -28,7 +28,7 @@ public class User {
 
      }
 
-    public User(Long id, String name, String email, LocalDate birthDate, List<Post> post) {
+    public User(String name, String email, LocalDate birthDate) {
         this.id = id;
         this.name = name;
         this.email = email;
