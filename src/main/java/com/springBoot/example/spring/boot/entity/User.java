@@ -36,6 +36,10 @@ public class User {
         this.post = post;
     }
 
+    public User(Long id) {
+         this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
