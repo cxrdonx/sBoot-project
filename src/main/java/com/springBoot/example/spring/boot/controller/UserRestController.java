@@ -23,7 +23,7 @@ public class UserRestController {
         this.getUser = getUser;
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     List<User> get(){
         return getUser.getAll();
       }
